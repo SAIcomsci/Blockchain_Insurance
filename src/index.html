@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This web app is to store and retrive the student details using Ethereum, Metamask, Ganache, Truffle">
+    <meta name="author" content="Indrason">
+    
+    <title>Students Records</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="text-center my-4">
+        <h1>User Registration</h1>
+      </div>
+      
+      <hr>
+
+      <!-- Main menu with two buttons -->
+      <div class="text-center">
+        <button class="btn btn-lg btn-primary" type="button" onclick="App.btn_addUser_menu()">Add User</button> &emsp;&emsp;
+        <button class="btn btn-lg btn-primary" type="button" onclick="App.btn_viewUser_menu()">View User</button> &emsp;&emsp;
+        <a class="btn btn-lg btn-info" href="insurence.html">Insurance</a>
+      </div>
+
+      <hr>
+
+      <!-- Add User section to add User details -->
+      <section id="addUser">
+        <h4 class="text-center my-4"><u>Add New User</u></h4>
+
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">Addhaar ID</div>
+          <div class="col-md-5"><input type="number" id="new_id" class="form-control"></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">Name</div>
+          <div class="col-md-5"><input type="text" id="new_name" class="form-control"></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">Address</div>
+          <div class="col-md-5"><textarea class="form-control" id="new_address" rows="3"></textarea></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">Age</div>
+          <div class="col-md-5"><input type="number" id="new_age" class="form-control"></div>
+
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-2">Gender</div>
+            <div class="col-md-5"><input type="text" id="new_gen" class="form-control"></textarea></div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">contact</div>
+          <div class="col-md-5"><input type="number" id="new_con" class="form-control"></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-3"><button type="button" class="btn btn-success form-control" onclick="App.btnAddUser()">ADD</button></div>
+        </div>
+
+        <div id="add_err" class="text-center"></div>
+
+        <hr>
+      </section>
+
+      <!-- View Student section to show the details of the student -->
+      <section id="viewUser">
+        <h4 class="text-center my-4"><u>View User by ID</u></h4>
+
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-2">Id</div>
+          <div class="col-md-5"><input type="number" id="view_govt_id" class="form-control"></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-3"><button type="button" class="btn btn-success form-control" onclick="App.btnViewUser()">VIEW</button></div>
+        </div>
+
+        <div id="view_err" class="text-center"></div>
+
+        <div id="view_result">
+          <div class="row justify-content-center my-4">
+            <div class="col-md-6">
+              <b>Id:</b> &emsp;&emsp; <label id="view_id"></label> <br>
+              <b>Name:</b> &emsp;&emsp; <label id="view_name"></label> <br>
+              <b>Location:</b> &emsp;&emsp; <label id="view_location"></label> <br>
+              <b>Age:</b> &emsp;&emsp; <label id="view_age"></label> <br>
+              <b>Gender:</b> &emsp;&emsp; <label id="view_gender"></label> <br>
+              <b>Contact:</b> &emsp;&emsp; <label id="view_contact"></label> 
+            </div>
+          </div>
+        </div>
+
+        <hr>
+      </section>
+
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
