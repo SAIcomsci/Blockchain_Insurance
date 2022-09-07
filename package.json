@@ -1,0 +1,27 @@
+{
+  "name": "students",
+  "version": "1.0.0",
+  "description": "This project is to store and view student records",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "keywords": [
+    "web3",
+    "ethereum",
+    "students",
+    "records"
+  ],
+  "author": "Indrason",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^1.7.5"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
