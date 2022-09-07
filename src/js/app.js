@@ -63,8 +63,8 @@ App = {
   },
   // Button click function for 'add company' button
 
-  btn_AddCom_menu : function () {
-    $('#addIns').show();
+  btn_AddCom_menu: function () {
+    $('#addCompany').show();
     $('#viewCom').hide();
     $('#add_err').text('');
   },
@@ -72,8 +72,8 @@ App = {
   // button click functon for "show company"
   btn_viewcom_menu: function () {
     $('#viewCom').show();
-    $('#addIns').hide();
-    $('#view_result').hide();
+    $('#addCompany').hide();
+    $('#view_result2').hide();
     $('#view_err').text('');
 
   },
@@ -89,9 +89,9 @@ App = {
     //var percentage = $('#new_percentage').val();
     var age = $('#new_age').val();
     var gender = $('#new_gen').val();
-    var contact =$('#new_con').val()
+    var contact = $('#new_con').val()
 
-    if (id=="" || name == "" || address == "" || age == ""  || gender=="" ||contact=="") {
+    if (id == "" || name == "" || address == "" || age == "" || gender == "" || contact == "") {
       $('#add_err').text('* Kindly fill all the fields !');
     }
     else {
@@ -105,7 +105,7 @@ App = {
         // Calling checkStudent function to check whether the student has already exist or not
         App.contracts.UserRegister.deployed().then(function (instance) {
 
-          return instance.addUser(parseInt(id),name, address, parseInt(age),gender,parseInt(contact), { from: account });
+          return instance.addUser(parseInt(id), name, address, parseInt(age), gender, parseInt(contact), { from: account });
 
         }).then(function (result) {
           $('#add_err').text('User Record Successfully Added');
@@ -130,37 +130,37 @@ App = {
       $('#view_err').text('* Kindly enter ID to proceed !');
     }
     else {
-      
-          App.contracts.UserRegister.deployed().then(function (instance) {
-            return instance.showUser(parseInt(govt_id));
 
-          }).then(function (result) {
-            //console.log(result);
-            // Displaying the values
-            //$('#view_rollno').text(result[0].toNumber());
-            $('#view_id').text(result[0].toNumber());
-            $('#view_name').text(result[1]);
-            $('#view_location').text(result[2]);
-            $('#view_age').text(result[3].toNumber());
-            $('#view_gender').text(result[4]);
-            $('#view_contact').text(result[5].toNumber());
-            $('#view_result').show();
+      App.contracts.UserRegister.deployed().then(function (instance) {
+        return instance.showUser(parseInt(govt_id));
 
-          }).catch(function (err) {
-            $('#view_err').text('* Something went wrong, Please try again !');
-            console.log(err.message);
-            $('#view_result').hide();
+      }).then(function (result) {
+        //console.log(result);
+        // Displaying the values
+        //$('#view_rollno').text(result[0].toNumber());
+        $('#view_id').text(result[0].toNumber());
+        $('#view_name').text(result[1]);
+        $('#view_location').text(result[2]);
+        $('#view_age').text(result[3].toNumber());
+        $('#view_gender').text(result[4]);
+        $('#view_contact').text(result[5].toNumber());
+        $('#view_result').show();
 
-          });
-    //    }
-    //   }).catch(function (err) {
-    //     $('#view_err').text('* Something went wrong, Please try again !');
-    //     console.log(err.message);
-    //   });
-     }
+      }).catch(function (err) {
+        $('#view_err').text('* Something went wrong, Please try again !');
+        console.log(err.message);
+        $('#view_result').hide();
+
+      });
+      //    }
+      //   }).catch(function (err) {
+      //     $('#view_err').text('* Something went wrong, Please try again !');
+      //     console.log(err.message);
+      //   });
+    }
   },
 
-  btnAddCom : function () {
+  btnAddCom: function () {
     $('#add_err').text('');
 
     // Fetching the values from the input fields
@@ -168,7 +168,7 @@ App = {
     var cname = $('#new_cname').val();
     var caddress = $('#new_caddress').val();
 
-    if (cid=="" || cname == "" || caddress == "" ) {
+    if (cid == "" || cname == "" || caddress == "") {
       $('#add_err').text('* Kindly fill all the fields !');
     }
     else {
@@ -182,7 +182,7 @@ App = {
         // Calling checkStudent function to check whether the student has already exist or not
         App.contracts.UserRegister.deployed().then(function (instance) {
 
-          return instance.addcom(parseInt(cid),cname, caddress, { from: account });
+          return instance.addcom(parseInt(cid), cname, caddress, { from: account });
 
         }).then(function (result) {
           $('#add_err').text('User Record Successfully Added');
@@ -205,31 +205,31 @@ App = {
       $('#view_err').text('* Kindly enter ID to proceed !');
     }
     else {
-      
-          App.contracts.UserRegister.deployed().then(function (instance) {
-            return instance.showcom(parseInt(_id));
 
-          }).then(function (result) {
-            console.log(result);
-            // Displaying the values
-            //$('#view_rollno').text(result[0].toNumber());
-            $('#view_cid').text(result[0].toNumber());
-            $('#view_cname').text(result[1]);
-            $('#view_clocation').text(result[2]);
-            $('#view_result').show();
+      App.contracts.UserRegister.deployed().then(function (instance) {
+        return instance.showcom(parseInt(_id));
 
-          }).catch(function (err) {
-            $('#view_err').text('* Something went wrong, Please try again !');
-            console.log(err.message);
-            $('#view_result').hide();
+      }).then(function (result) {
+        console.log(result);
+        // Displaying the values
+        //$('#view_rollno').text(result[0].toNumber());
+        $('#view_cid').text(result[0].toNumber());
+        $('#view_cname').text(result[1]);
+        $('#view_clocation').text(result[2]);
+        $('#view_result2').show();
 
-          });
-    //    }
-    //   }).catch(function (err) {
-    //     $('#view_err').text('* Something went wrong, Please try again !');
-    //     console.log(err.message);
-    //   });
-     }
+      }).catch(function (err) {
+        $('#view_err').text('* Something went wrong, Please try again !');
+        console.log(err.message);
+        $('#view_result').hide();
+
+      });
+      //    }
+      //   }).catch(function (err) {
+      //     $('#view_err').text('* Something went wrong, Please try again !');
+      //     console.log(err.message);
+      //   });
+    }
   },
 };
 
