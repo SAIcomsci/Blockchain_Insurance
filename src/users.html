@@ -56,7 +56,7 @@
 
             <div class="row justify-content-center mt-4">
                 <div class="col-md-2">Addhaar ID</div>
-                <div class="col-md-5"><input type="number" id="new_id" class="form-control"></div>
+                <div class="col-md-5"><input type="number" id="new_aid" class="form-control"></div>
             </div>
             <div class="row justify-content-center mt-4">
                 <div class="col-md-2">Name</div>
@@ -100,12 +100,8 @@
             <hr>
 
             <div class="row justify-content-center mt-4">
-                <div class="col-md-2">Aadhaar ID</div>
-                <div class="col-md-5"><input type="number" id="view_govt_id" class="form-control"></div>
-            </div>
-            <div class="row justify-content-center mt-4">
                 <div class="col-md-3"><button type="button" class="btn btn-success form-control"
-                        onclick="App.btnViewUser()">VIEW</button></div>
+                        onclick="App.btnViewUser()">VIEW MY ACCOUNT</button></div>
             </div>
 
             <div id="view_err" class="text-center"></div>
@@ -113,12 +109,13 @@
             <div id="view_result">
                 <div class="row justify-content-center my-4">
                     <div class="col-md-6">
-                        <b>Id:</b> &emsp;&emsp; <label id="view_id"></label> <br>
+                        <b>Addhaar Id:</b> &emsp;&emsp; <label id="view_aid"></label> <br>
                         <b>Name:</b> &emsp;&emsp; <label id="view_name"></label> <br>
                         <b>Location:</b> &emsp;&emsp; <label id="view_location"></label> <br>
                         <b>Age:</b> &emsp;&emsp; <label id="view_age"></label> <br>
                         <b>Gender:</b> &emsp;&emsp; <label id="view_gender"></label> <br>
                         <b>Contact:</b> &emsp;&emsp; <label id="view_contact"></label>
+                        <b>Id:</b> &emsp;&emsp; <label id="view_id"></label> <br>
                     </div>
                 </div>
             </div>
