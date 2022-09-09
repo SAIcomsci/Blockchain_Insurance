@@ -136,4 +136,10 @@ contract UserRegister {
 
         return (_find);
     }
+     // Function to show Policys  that are already registered !!!!!
+
+    function showIns(uint _id) public view returns(uint, string memory, uint, uint,uint ,string memory,address){
+        return(p1[_id].policy_id,p1[_id].policy_name,p1[_id].premium_monthly,p1[_id].ploy_year,p1[_id].reimburse,p1[_id].company_name,p1[_id].company);
+    }
+  
 }

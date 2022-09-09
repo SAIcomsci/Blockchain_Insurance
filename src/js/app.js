@@ -299,8 +299,109 @@ App = {
     //   });
     //}
   },
-};
 
+
+// Button click function for 'ADD' button to add student details
+btnAddIns: function () {
+  $('#add_err').text('');
+
+  // Fetching the values from the input fields
+  var id = $('#new_iid').val();
+  var name = $('#new_iname').val();
+  var pm = $('#new_pre').val();
+  var ip = $('#new_pri').val();
+  var rm = $('#new_rem').val();
+  
+
+  if (id == "" || name == "" || pm == "" || ip == "" || rm == "" ) {
+    $('#add_err').text('* Kindly fill all the fields !');
+  }
+  else {
+    // Fetching account address
+    web3.eth.getAccounts(function (error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      account = accounts[0];
+      //console.log(account);
+      // Calling checkpolicy function to check whether the student has already exist or not
+
+      App.contracts.UserRegister.deployed().then(function (instance) {
+
+        return instance.checkPolicy(id);
+
+      }).then(function (result) {
+        if (result == 1) {
+          $('#add_err').text('* Policy already exists !');
+        }
+        else {
+          // Calling addUser function to add the student details
+          App.contracts.UserRegister.deployed().then(function (instance) {
+
+            return instance.addPolicy(parseInt(id), name,parseInt(pm) , parseInt(ip), parseInt(rm), account, { from: account });
+
+          }).then(function (result) {
+            $('#add_err').text('User Record Successfully Added');
+            console.log(result);
+
+          }).catch(function (err) {
+            $('#add_err').text('* Unable to save record. Please try again!');
+            console.log(err.message);
+          });
+        }
+
+      });
+
+    }).catch(function (err) {
+      $('#view_err').text('* Something went wrong, Please try again !');
+      console.log(err.message);
+    });
+
+  }
+},
+
+btnViewIns: function () {
+  $('#view_err').text('');
+  web3.eth.getAccounts(function (error, accounts) {
+    if (error) {
+      console.log(error);
+    }
+    account = accounts[0];
+  });
+
+
+  App.contracts.UserRegister.deployed().then(function (instance) {
+    //return instance.showUser(parseInt(govt_id));
+    return instance.showIns(account)
+
+  }).then(function (result) {
+    console.log(account);
+    console.log(result);
+    // Displaying the values
+    //$('#view_rollno').text(result[0].toNumber());
+    $('#view_aid').text(result[0].toNumber());
+    $('#view_name').text(result[1]);
+    $('#view_location').text(result[2]);
+    $('#view_age').text(result[3].toNumber());
+    $('#view_gender').text(result[4]);
+    $('#view_contact').text(result[5].toNumber());
+    $('#view_id').text(result[6].toNumber());
+    $('#view_result').show();
+
+  }).catch(function (err) {
+    $('#view_err').text('* Something went wrong, Please try again !');
+    console.log(err.message);
+    $('#view_result').hide();
+
+  });
+  //    }
+  //   }).catch(function (err) {
+  //     $('#view_err').text('* Something went wrong, Please try again !');
+  //     console.log(err.message);
+  //   });
+},
+
+};
 
 $(function () {
 
