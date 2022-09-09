@@ -1,5 +1,8 @@
 App = {
   web3Provider: null,
+  account: null,
+  isUser: null,
+  isCompany: null,
   contracts: {},
 
   init: async function () {
@@ -42,56 +45,47 @@ App = {
       // Set the provider for our contract
       App.contracts.UserRegister.setProvider(App.web3Provider);
 
+      return App.initAccount();
+
     });
 
   },
 
-  // Button click function for 'Add user' button
-  btn_addUser_menu: function () {
-    $('#addUser').show();
-    $('#viewUser').hide();
-    $('#add_err').text('');
+  // Fetching account address
+  initAccount: function () {
+    web3.eth.getAccounts(function (error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      App.account = accounts[0];
+      console.log('Current account: ' + App.account);
+    });
+
+    return App.checkCompany();
   },
 
-  // Button click function for 'View Student' button
-  btn_viewUser_menu: function () {
-    $('#viewUser').show();
-    $('#addUser').hide();
-    $('#view_result').hide();
-    $('#view_err').text('');
+  // Function to check the status of company
+  checkCompany: function () {
 
-  },
-  // Button click function for 'add company' button
+    App.contracts.UserRegister.deployed().then(function (instance) {
 
-  btn_AddCom_menu: function () {
-    $('#addCompany').show();
-    $('#viewCom').hide();
-    $('#add_err').text('');
-  },
+      return instance.checkCompany(App.account);
 
-  // button click functon for "show company"
-  btn_viewcom_menu: function () {
-    $('#viewCom').show();
-    $('#addCompany').hide();
-    $('#view_result2').hide();
-    $('#view_err').text('');
+    }).then(function (result) {
+      //result = result.toNumber();
+      if (result == 1) {
+        App.isCompany = 1;
+      }
+      else if (result == 2) {
+        App.isUser = 1;
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+    });
 
   },
 
-  // Button click function for 'Add user' button
-  btn_addIns_menu: function () {
-    $('#addIns').show();
-    $('#viewIns').hide();
-    $('#add_err').text('');
-  },
-
-  btn_viewIns_menu: function () {
-    $('#viewIns').show();
-    $('#addIns').hide();
-    $('#view_result2').hide();
-    $('#view_err').text('');
-
-  },
+  // **************************************************** //
 
   // Button click function for 'ADD' button to add student details
   btnAddUser: function () {
@@ -110,43 +104,35 @@ App = {
       $('#add_err').text('* Kindly fill all the fields !');
     }
     else {
-      // Fetching account address
-      web3.eth.getAccounts(function (error, accounts) {
-        if (error) {
-          console.log(error);
+
+      // Calling checkStudent function to check whether the student has already exist or not
+
+      App.contracts.UserRegister.deployed().then(function (instance) {
+
+        return instance.checkUser(App.account);
+
+      }).then(function (result) {
+        if (result == 1) {
+          $('#add_err').text('* User already exists !');
         }
-        account = accounts[0];
-        //console.log(account);
-        // Calling checkStudent function to check whether the student has already exist or not
+        else if (result == 2) {
+          $('#add_err').text('* You cannot create user account, you are a company !');
+        }
+        else {
+          // Calling addUser function to add the student details
+          App.contracts.UserRegister.deployed().then(function (instance) {
 
-        App.contracts.UserRegister.deployed().then(function (instance) {
+            return instance.addUser(parseInt(id), name, address, parseInt(age), gender, parseInt(contact), App.account, { from: App.account });
 
-          return instance.checkUser(account);
+          }).then(function (result) {
+            $('#add_err').text('User Record Successfully Added');
+            console.log(result);
 
-        }).then(function (result) {
-          if (result == 1) {
-            $('#add_err').text('* User already exists !');
-          }
-          else if (result == 2) {
-            $('#add_err').text('* You cannot create user account, you are a company !');
-          }
-          else {
-            // Calling addUser function to add the student details
-            App.contracts.UserRegister.deployed().then(function (instance) {
-
-              return instance.addUser(parseInt(id), name, address, parseInt(age), gender, parseInt(contact), account, { from: account });
-
-            }).then(function (result) {
-              $('#add_err').text('User Record Successfully Added');
-              console.log(result);
-
-            }).catch(function (err) {
-              $('#add_err').text('* Unable to save record. Please try again!');
-              console.log(err.message);
-            });
-          }
-
-        });
+          }).catch(function (err) {
+            $('#add_err').text('* Unable to save record. Please try again!');
+            console.log(err.message);
+          });
+        }
 
       }).catch(function (err) {
         $('#view_err').text('* Something went wrong, Please try again !');
@@ -159,20 +145,12 @@ App = {
   // Button click function for 'VIEW' button to show the student details
   btnViewUser: function () {
     $('#view_err').text('');
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      account = accounts[0];
-    });
-
 
     App.contracts.UserRegister.deployed().then(function (instance) {
       //return instance.showUser(parseInt(govt_id));
-      return instance.showUser(account)
+      return instance.showUser(App.account)
 
     }).then(function (result) {
-      console.log(account);
       console.log(result);
       // Displaying the values
       //$('#view_rollno').text(result[0].toNumber());
@@ -191,12 +169,9 @@ App = {
       $('#view_result').hide();
 
     });
-    //    }
-    //   }).catch(function (err) {
-    //     $('#view_err').text('* Something went wrong, Please try again !');
-    //     console.log(err.message);
-    //   });
+
   },
+
 
   btnAddCom: function () {
     $('#add_err').text('');
@@ -210,77 +185,58 @@ App = {
       $('#add_err').text('* Kindly fill all the fields !');
     }
     else {
-      // Fetching account address
-      web3.eth.getAccounts(function (error, accounts) {
-        if (error) {
-          console.log(error);
+
+      // Calling checkStudent function to check whether the student has already exist or not
+
+      App.contracts.UserRegister.deployed().then(function (instance) {
+
+        return instance.checkCompany(App.account);
+
+      }).then(function (result) {
+        if (result == 1) {
+          $('#add_err').text('* Company already exists !');
         }
-        account = accounts[0];
-        //console.log(account);
-        // Calling checkStudent function to check whether the student has already exist or not
+        else if (result == 2) {
+          $('#add_err').text('* You cannot create company account, you are a user !');
+        }
+        else {
+          App.contracts.UserRegister.deployed().then(function (instance) {
 
-        App.contracts.UserRegister.deployed().then(function (instance) {
+            return instance.addcom(parseInt(cid), cname, caddress, App.account, { from: App.account });
 
-          return instance.checkCompany(account);
+          }).then(function (result) {
+            $('#add_err').text('Company Record Successfully Added');
+            $('#addInsLink').show();
+            console.log(result);
 
-        }).then(function (result) {
-          if (result == 1) {
-            $('#add_err').text('* Company already exists !');
-          }
-          else if (result == 2) {
-            $('#add_err').text('* You cannot create company account, you are a user !');
-          }
-          else {
-            App.contracts.UserRegister.deployed().then(function (instance) {
+          }).catch(function (err) {
+            $('#add_err').text('* Unable to save record. Please try again!');
+            console.log(err.message);
+          });
 
-              return instance.addcom(parseInt(cid), cname, caddress, account, { from: account });
+        }
 
-            }).then(function (result) {
-              $('#add_err').text('Company Record Successfully Added');
-              console.log(result);
-
-            }).catch(function (err) {
-              $('#add_err').text('* Unable to save record. Please try again!');
-              console.log(err.message);
-            });
-
-          }
-
-          //
-        }).catch(function (err) {
-          $('#view_err').text('* Something went wrong, Please try again !');
-          console.log(err.message);
-        });
+        //
+      }).catch(function (err) {
+        $('#view_err').text('* Something went wrong, Please try again !');
+        console.log(err.message);
       });
     }
 
   },
+
   btnViewcom: function () {
     $('#view_err').text('');
 
-    // var _id = $('#li_id').val();
-    // if (_id == "") {
-    //   $('#view_err').text('* Kindly enter ID to proceed !');
-    // }
-    // else {
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      account = accounts[0];
-    });
-
-
     App.contracts.UserRegister.deployed().then(function (instance) {
       //return instance.showcom(parseInt(_id));
-      return instance.showcom(account);
+      return instance.showcom(App.account);
 
     }).then(function (result) {
       console.log(result);
       // Displaying the values
-      //$('#view_rollno').text(result[0].toNumber());
-      $('#view_cad').text(account);
-      $('#view_li').text(result[0].toNumber());
+      $('#view_cad').text(App.account);
+      $('#view_id').text(result[0].toNumber());
       $('#view_cname').text(result[1]);
       $('#view_clocation').text(result[2]);
       $('#view_cid').text(result[3]);
@@ -292,38 +248,27 @@ App = {
       $('#view_result').hide();
 
     });
-    //    }
-    //   }).catch(function (err) {
-    //     $('#view_err').text('* Something went wrong, Please try again !');
-    //     console.log(err.message);
-    //   });
-    //}
+
   },
 
 
-// Button click function for 'ADD' button to add student details
-btnAddIns: function () {
-  $('#add_err').text('');
+  // Button click function for 'ADD' button to add student details
+  btnAddIns: function () {
+    $('#add_err').text('');
 
-  // Fetching the values from the input fields
-  var id = $('#new_iid').val();
-  var name = $('#new_iname').val();
-  var pm = $('#new_pre').val();
-  var ip = $('#new_pri').val();
-  var rm = $('#new_rem').val();
-  
+    // Fetching the values from the input fields
+    var id = $('#new_iid').val();
+    var name = $('#new_iname').val();
+    var pm = $('#new_pre').val();
+    var ip = $('#new_pri').val();
+    var rm = $('#new_rem').val();
 
-  if (id == "" || name == "" || pm == "" || ip == "" || rm == "" ) {
-    $('#add_err').text('* Kindly fill all the fields !');
-  }
-  else {
-    // Fetching account address
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      account = accounts[0];
-      //console.log(account);
+
+    if (id == "" || name == "" || pm == "" || ip == "" || rm == "") {
+      $('#add_err').text('* Kindly fill all the fields !');
+    }
+    else {
+
       // Calling checkpolicy function to check whether the student has already exist or not
 
       App.contracts.UserRegister.deployed().then(function (instance) {
@@ -338,7 +283,7 @@ btnAddIns: function () {
           // Calling addUser function to add the student details
           App.contracts.UserRegister.deployed().then(function (instance) {
 
-            return instance.addPolicy(parseInt(id), name,parseInt(pm) , parseInt(ip), parseInt(rm), account, { from: account });
+            return instance.addPolicy(parseInt(id), name, parseInt(pm), parseInt(ip), parseInt(rm), App.account, { from: App.account });
 
           }).then(function (result) {
             $('#add_err').text('User Record Successfully Added');
@@ -350,63 +295,46 @@ btnAddIns: function () {
           });
         }
 
+      }).catch(function (err) {
+        $('#view_err').text('* Something went wrong, Please try again !');
+        console.log(err.message);
       });
+
+    }
+  },
+
+  btnViewIns: function () {
+    $('#view_err').text('');
+
+    App.contracts.UserRegister.deployed().then(function (instance) {
+      //return instance.showUser(parseInt(govt_id));
+      return instance.showIns(App.account)
+
+    }).then(function (result) {
+      console.log(result);
+      // Displaying the values
+      //$('#view_rollno').text(result[0].toNumber());
+      $('#view_iid').text(result[0].toNumber());
+      $('#view_iname').text(result[1]);
+      $('#view_ipm').text(result[2]);
+      $('#view_ipriod').text(result[3].toNumber());
+      $('#view_irem').text(result[4]);
+      $('#view_cname').text(result[5]);
+      $('#view_cadd').text(App.account);
+      $('#view_result3').show();
 
     }).catch(function (err) {
       $('#view_err').text('* Something went wrong, Please try again !');
       console.log(err.message);
+      //$('#view_result3').hide();
+
     });
 
-  }
-},
-
-btnViewIns: function () {
-  $('#view_err').text('');
-  web3.eth.getAccounts(function (error, accounts) {
-    if (error) {
-      console.log(error);
-    }
-    account = accounts[0];
-  });
-
-
-  App.contracts.UserRegister.deployed().then(function (instance) {
-    //return instance.showUser(parseInt(govt_id));
-    return instance.showIns(account)
-
-  }).then(function (result) {
-    console.log(account);
-    console.log(result);
-    // Displaying the values
-    //$('#view_rollno').text(result[0].toNumber());
-    $('#view_aid').text(result[0].toNumber());
-    $('#view_name').text(result[1]);
-    $('#view_location').text(result[2]);
-    $('#view_age').text(result[3].toNumber());
-    $('#view_gender').text(result[4]);
-    $('#view_contact').text(result[5].toNumber());
-    $('#view_id').text(result[6].toNumber());
-    $('#view_result').show();
-
-  }).catch(function (err) {
-    $('#view_err').text('* Something went wrong, Please try again !');
-    console.log(err.message);
-    $('#view_result').hide();
-
-  });
-  //    }
-  //   }).catch(function (err) {
-  //     $('#view_err').text('* Something went wrong, Please try again !');
-  //     console.log(err.message);
-  //   });
-},
+  },
 
 };
 
 $(function () {
-
-  $('#viewUser').hide();
-  $('#viewCom').hide();
   $(window).load(function () {
     App.init();
   });
