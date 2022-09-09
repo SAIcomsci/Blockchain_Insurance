@@ -46,7 +46,7 @@ App = {
 
   },
 
-  // Button click function for 'Add Student' button
+  // Button click function for 'Add user' button
   btn_addUser_menu: function () {
     $('#addUser').show();
     $('#viewUser').hide();
@@ -112,6 +112,9 @@ App = {
           if (result == 1) {
             $('#add_err').text('* User already exists !');
           }
+          else if (result == 2) {
+            $('#add_err').text('* You cannot create user account, you are a company !');
+          }
           else {
             // Calling addUser function to add the student details
             App.contracts.UserRegister.deployed().then(function (instance) {
@@ -164,7 +167,7 @@ App = {
       $('#view_age').text(result[3].toNumber());
       $('#view_gender').text(result[4]);
       $('#view_contact').text(result[5].toNumber());
-      $('#view_id').text(result[0].toNumber());
+      $('#view_id').text(result[6].toNumber());
       $('#view_result').show();
 
     }).catch(function (err) {
@@ -208,6 +211,9 @@ App = {
         }).then(function (result) {
           if (result == 1) {
             $('#add_err').text('* Company already exists !');
+          }
+          else if (result == 2) {
+            $('#add_err').text('* You cannot create company account, you are a user !');
           }
           else {
             App.contracts.UserRegister.deployed().then(function (instance) {
@@ -259,9 +265,10 @@ App = {
       // Displaying the values
       //$('#view_rollno').text(result[0].toNumber());
       $('#view_cad').text(account);
-      $('#view_cid').text(result[0].toNumber());
+      $('#view_li').text(result[0].toNumber());
       $('#view_cname').text(result[1]);
       $('#view_clocation').text(result[2]);
+      $('#view_cid').text(result[3]);
       $('#view_result2').show();
 
     }).catch(function (err) {

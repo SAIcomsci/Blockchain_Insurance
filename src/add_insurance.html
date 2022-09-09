@@ -40,7 +40,7 @@
 
 
         <!-- Add Company section to add Company details -->
-        <section id="addCompany">
+        <section id="addPolicy">
             <div class="text-center my-4">
                 <h1>Insurance Registration</h1>
             </div>
@@ -48,30 +48,34 @@
             <hr>
 
             <div class="row justify-content-center mt-4">
-                <div class="col-md-2">License ID</div>
-                <div class="col-md-5"><input type="number" id="new_cid" class="form-control"></div>
+                <div class="col-md-2">Insurance ID</div>
+                <div class="col-md-5"><input type="number" id="new_iid" class="form-control"></div>
             </div>
             <div class="row justify-content-center mt-4">
+                <div class="col-md-2"> Insurance Name</div>
+                <div class="col-md-5"><input type="text" id="new_iname" class="form-control"></div>
+            </div>
+             <div class="row justify-content-center mt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-5">Premuim Monthly<input type="number" id="new_pre" class="form-control"></div>
+      
+                <div class="row justify-content-center mt-4">
+                  <div class="col-md-2">Insurance Priod</div>
+                  <div class="col-md-5"><input type="number" id="new_pri" class="form-control"></textarea></div>
+                </div>
+              </div>
+              <div class="row justify-content-center mt-4">
+                <div class="col-md-2">Reimburse Money</div>
+                <div class="col-md-5"><input type="number" id="new_rem" class="form-control"></div>
+              </div> 
+              <div class="row justify-content-center mt-4">
                 <div class="col-md-2"> Company Name</div>
                 <div class="col-md-5"><input type="text" id="new_cname" class="form-control"></div>
             </div>
             <div class="row justify-content-center mt-4">
-                <div class="col-md-2">Business Location</div>
-                <div class="col-md-5"><textarea class="form-control" id="new_caddress" rows="3"></textarea></div>
+                <div class="col-md-2"> Company Account Add</div>
+                <div class="col-md-5"><input type="text" id="new_cadd" class="form-control"></div>
             </div>
-            <!-- <div class="row justify-content-center mt-4">
-                <div class="col-md-2"></div>
-                <div class="col-md-5">age<input type="number" id="new_age" class="form-control"></div>
-      
-                <div class="row justify-content-center mt-4">
-                  <div class="col-md-2">Gender</div>
-                  <div class="col-md-5"><input type="text" id="new_gen" class="form-control"></textarea></div>
-                </div>
-              </div>
-              <div class="row justify-content-center mt-4">
-                <div class="col-md-2">contact</div>
-                <div class="col-md-5"><input type="number" id="new_con" class="form-control"></div>
-              </div> -->
             <div class="row justify-content-center mt-4">
                 <div class="col-md-3"><button type="button" class="btn btn-success form-control"
                         onclick="App.btnAddCom()">ADD</button></div>
