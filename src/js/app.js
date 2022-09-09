@@ -78,6 +78,21 @@ App = {
 
   },
 
+  // Button click function for 'Add user' button
+  btn_addIns_menu: function () {
+    $('#addIns').show();
+    $('#viewIns').hide();
+    $('#add_err').text('');
+  },
+
+  btn_viewIns_menu: function () {
+    $('#viewIns').show();
+    $('#addIns').hide();
+    $('#view_result2').hide();
+    $('#view_err').text('');
+
+  },
+
   // Button click function for 'ADD' button to add student details
   btnAddUser: function () {
     $('#add_err').text('');
