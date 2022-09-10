@@ -1,8 +1,8 @@
 App = {
   web3Provider: null,
   account: null,
-  isUser: null,
-  isCompany: null,
+  isUser: 0,
+  isCompany: 0,
   contracts: {},
 
   init: async function () {
@@ -62,6 +62,7 @@ App = {
     });
 
     return App.checkCompany();
+
   },
 
   // Function to check the status of company
@@ -73,11 +74,16 @@ App = {
 
     }).then(function (result) {
       //result = result.toNumber();
+      console.log(result);
       if (result == 1) {
         App.isCompany = 1;
+        $('#addInsLink').show();
+        console.log('yes company');
       }
       else if (result == 2) {
         App.isUser = 1;
+        $('#applyInsLink').show();
+        console.log('yes user');
       }
     }).catch(function (err) {
       console.log(err.message);
@@ -105,17 +111,11 @@ App = {
     }
     else {
 
-      // Calling checkStudent function to check whether the student has already exist or not
 
-      App.contracts.UserRegister.deployed().then(function (instance) {
-
-        return instance.checkUser(App.account);
-
-      }).then(function (result) {
-        if (result == 1) {
+        if (App.isUser == 1) {
           $('#add_err').text('* User already exists !');
         }
-        else if (result == 2) {
+        else if (App.isCompany == 1) {
           $('#add_err').text('* You cannot create user account, you are a company !');
         }
         else {
@@ -133,11 +133,6 @@ App = {
             console.log(err.message);
           });
         }
-
-      }).catch(function (err) {
-        $('#view_err').text('* Something went wrong, Please try again !');
-        console.log(err.message);
-      });
 
     }
   },
@@ -186,41 +181,28 @@ App = {
     }
     else {
 
-      // Calling checkStudent function to check whether the student has already exist or not
+      if (App.isCompany == 1) {
+        $('#add_err').text('* Company already exists !');
+      }
+      else if (App.isUser == 1) {
+        $('#add_err').text('* You cannot create company account, you are a user !');
+      }
+      else {
+        App.contracts.UserRegister.deployed().then(function (instance) {
 
-      App.contracts.UserRegister.deployed().then(function (instance) {
+          return instance.addcom(parseInt(cid), cname, caddress, App.account, { from: App.account });
 
-        return instance.checkCompany(App.account);
+        }).then(function (result) {
+          $('#add_err').text('Company Record Successfully Added');
+          $('#addInsLink').show();
+          console.log(result);
 
-      }).then(function (result) {
-        if (result == 1) {
-          $('#add_err').text('* Company already exists !');
-        }
-        else if (result == 2) {
-          $('#add_err').text('* You cannot create company account, you are a user !');
-        }
-        else {
-          App.contracts.UserRegister.deployed().then(function (instance) {
+        }).catch(function (err) {
+          $('#add_err').text('* Unable to save record. Please try again!');
+          console.log(err.message);
+        });
 
-            return instance.addcom(parseInt(cid), cname, caddress, App.account, { from: App.account });
-
-          }).then(function (result) {
-            $('#add_err').text('Company Record Successfully Added');
-            $('#addInsLink').show();
-            console.log(result);
-
-          }).catch(function (err) {
-            $('#add_err').text('* Unable to save record. Please try again!');
-            console.log(err.message);
-          });
-
-        }
-
-        //
-      }).catch(function (err) {
-        $('#view_err').text('* Something went wrong, Please try again !');
-        console.log(err.message);
-      });
+      }
     }
 
   },

@@ -33,7 +33,7 @@
                     <li class="nav-item">
                         <button class="btn btn-link nav-link" type="button" onclick="btn_viewUser_menu()">View User</button>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="applyInsLink">
                         <a class="nav-link" href="apply_insurance.html">Apply for Insurance</a>
                     </li>
                 </ul>
@@ -132,7 +132,7 @@
     <script src="js/app.js"></script>
     <script>
         $('#viewUser').hide();
-
+        $('#applyInsLink').hide();
         // Button click function for 'View User' button
         function btn_viewUser_menu() {
             $('#viewUser').show();
