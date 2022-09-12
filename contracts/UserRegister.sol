@@ -139,7 +139,17 @@ contract UserRegister {
      // Function to show Policys  that are already registered !!!!!
 
     function showIns(uint _id) public view returns(uint, string memory, uint, uint,uint ,string memory,address){
-        return(p1[_id].policy_id,p1[_id].policy_name,p1[_id].premium_monthly,p1[_id].ploy_year,p1[_id].reimburse,p1[_id].company_name,p1[_id].company);
+        return(p1[_id].policy_id, p1[_id].policy_name, p1[_id].premium_monthly, p1[_id].ploy_year, p1[_id].reimburse, p1[_id].company_name, p1[_id].company);
+    }
+
+    function getPolicySize() public view returns(uint) {
+        uint _size;
+        _size = policy.length;
+        return (_size);
+    }
+
+    function getPolicyByIndex(uint _i) public view returns(uint, string memory, uint, uint,uint ,string memory,address) {
+        return(policy[_i].policy_id, policy[_i].policy_name, policy[_i].premium_monthly, policy[_i].ploy_year, policy[_i].reimburse, policy[_i].company_name, policy[_i].company);
     }
   
 }

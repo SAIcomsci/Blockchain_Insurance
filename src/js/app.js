@@ -3,6 +3,7 @@ App = {
   account: null,
   isUser: 0,
   isCompany: 0,
+  policyList: null,
   contracts: {},
 
   init: async function () {
@@ -126,6 +127,7 @@ App = {
 
           }).then(function (result) {
             $('#add_err').text('User Record Successfully Added');
+            $('#applyInsLink').show();
             console.log(result);
 
           }).catch(function (err) {
@@ -268,7 +270,7 @@ App = {
             return instance.addPolicy(parseInt(id), name, parseInt(pm), parseInt(ip), parseInt(rm), App.account, { from: App.account });
 
           }).then(function (result) {
-            $('#add_err').text('User Record Successfully Added');
+            $('#add_err').text('Policy Record Successfully Added');
             console.log(result);
 
           }).catch(function (err) {
@@ -313,6 +315,41 @@ App = {
     });
 
   },
+
+  btnPolicyList: function() {
+    var size1;
+
+    App.contracts.UserRegister.deployed().then(function(instance) {
+      return instance.getPolicySize();
+    }).then(function(result) {
+      size1 = result.toNumber();
+      console.log(size1);
+    }).catch(function(err) {
+      console.log(err.message);
+    });
+
+    for(var i = 0; i < 3; i++) {
+      //alert('times');
+      App.showPolicy1(i);
+
+    }
+
+    
+    console.log(App.policyList);
+    
+  },
+
+  showPolicy1: function(times) {
+    App.contracts.UserRegister.deployed().then(function(instance) {
+      return instance.getPolicyByIndex(times);
+    }).then(function(result) {
+      console.log(result);
+      var x = "<div>Policy ID: "+result[0].toNumber()+"</div><br>";
+      $('#insList').html(x);
+    }).catch(function(err) {
+      console.log(err.message);
+    });
+  }
 
 };
 
