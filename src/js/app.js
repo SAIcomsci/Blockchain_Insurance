@@ -303,10 +303,10 @@ App = {
 
   btnViewIns: function () {
     $('#view_err').text('');
-
+    var _insvid=$("#insvid").val();
     App.contracts.UserRegister.deployed().then(function (instance) {
       //return instance.showUser(parseInt(govt_id));
-      return instance.showIns(App.account)
+      return instance.showIns(_insvid);
 
     }).then(function (result) {
       console.log(result);
