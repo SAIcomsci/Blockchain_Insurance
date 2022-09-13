@@ -4,6 +4,7 @@ App = {
   isUser: 0,
   isCompany: 0,
   policyList: null,
+  policySize: 0,
   contracts: {},
 
   init: async function () {
@@ -90,6 +91,19 @@ App = {
       console.log(err.message);
     });
 
+    return App.getPolicySize();
+
+  },
+
+  getPolicySize: function () {
+    App.contracts.UserRegister.deployed().then(function (instance) {
+      return instance.getPolicySize();
+    }).then(function (result) {
+      policySize = result.toNumber();
+      console.log('Policy Nums: '+policySize);
+    }).catch(function (err) {
+      console.log(err.message);
+    });
   },
 
   // **************************************************** //
@@ -113,28 +127,28 @@ App = {
     else {
 
 
-        if (App.isUser == 1) {
-          $('#add_err').text('* User already exists !');
-        }
-        else if (App.isCompany == 1) {
-          $('#add_err').text('* You cannot create user account, you are a company !');
-        }
-        else {
-          // Calling addUser function to add the student details
-          App.contracts.UserRegister.deployed().then(function (instance) {
+      if (App.isUser == 1) {
+        $('#add_err').text('* User already exists !');
+      }
+      else if (App.isCompany == 1) {
+        $('#add_err').text('* You cannot create user account, you are a company !');
+      }
+      else {
+        // Calling addUser function to add the student details
+        App.contracts.UserRegister.deployed().then(function (instance) {
 
-            return instance.addUser(parseInt(id), name, address, parseInt(age), gender, parseInt(contact), App.account, { from: App.account });
+          return instance.addUser(parseInt(id), name, address, parseInt(age), gender, parseInt(contact), App.account, { from: App.account });
 
-          }).then(function (result) {
-            $('#add_err').text('User Record Successfully Added');
-            $('#applyInsLink').show();
-            console.log(result);
+        }).then(function (result) {
+          $('#add_err').text('User Record Successfully Added');
+          $('#applyInsLink').show();
+          console.log(result);
 
-          }).catch(function (err) {
-            $('#add_err').text('* Unable to save record. Please try again!');
-            console.log(err.message);
-          });
-        }
+        }).catch(function (err) {
+          $('#add_err').text('* Unable to save record. Please try again!');
+          console.log(err.message);
+        });
+      }
 
     }
   },
@@ -316,39 +330,33 @@ App = {
 
   },
 
-  btnPolicyList: function() {
-    var size1;
-
-    App.contracts.UserRegister.deployed().then(function(instance) {
-      return instance.getPolicySize();
-    }).then(function(result) {
-      size1 = result.toNumber();
-      console.log(size1);
-    }).catch(function(err) {
-      console.log(err.message);
-    });
-
-    for(var i = 0; i < 3; i++) {
-      //alert('times');
+  btnPolicyList: function () {
+    
+    for (var i = 0; i < policySize; i++) {
       App.showPolicy1(i);
-
     }
 
-    
-    console.log(App.policyList);
-    
+    $('#btnPolicyList').hide();
+
+    //console.log(App.policyList);
+
   },
 
   showPolicy1: function(times) {
-    App.contracts.UserRegister.deployed().then(function(instance) {
+    App.contracts.UserRegister.deployed().then(function (instance) {
       return instance.getPolicyByIndex(times);
-    }).then(function(result) {
-      console.log(result);
-      var x = "<div>Policy ID: "+result[0].toNumber()+"</div><br>";
-      $('#insList').html(x);
-    }).catch(function(err) {
+    }).then(function (result) {
+      //console.log(result);
+      var x = "<tr><td>" + result[0].toNumber() + "</td><td>" + result[1] + "</td><td>" + result[2].toNumber() + "</td><td>" + result[3].toNumber() + "</td><td>" + result[4].toNumber() + "</td><td>" + result[5] + "</td><td><button class='btn btn-sm btn-primary' type='button' onclick='App.btnUserApplyIns(" + result[0].toNumber() + ")'>APPLY</button></td></tr>";
+      $('#insList').append(x);
+    }).catch(function (err) {
       console.log(err.message);
     });
+  },
+
+
+  btnUserApplyIns: function (_id) {
+    alert(_id + ": address: " + App.account);
   }
 
 };

@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="This web app is to store and retrive the student details using Ethereum, Metamask, Ganache, Truffle">
+    <meta name="description"
+        content="This web app is to store and retrive the student details using Ethereum, Metamask, Ganache, Truffle">
     <meta name="author" content="Indrason">
 
     <title>Apply Insurance | Insurance HUB</title>
@@ -34,7 +35,8 @@
                         <a class="nav-link" href="apply_insurance.html">Apply for Insurance</a>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-link nav-link" type="button" onclick="btn_viewUIns_menu()">View Insurance</button>
+                        <button class="btn btn-link nav-link" type="button" onclick="btn_viewUIns_menu()">View
+                            Insurance</button>
                     </li>
                 </ul>
             </div>
@@ -44,7 +46,8 @@
     <div class="container">
 
         <div class="row justify-content-center mt-3">
-            <div class="col-md-4"><button class="btn btn-info form-control" type="button" onclick="App.btnPolicyList()">SHOW POLICIES</button></div>
+            <div class="col-md-4"><button class="btn btn-info form-control" type="button"
+                    onclick="App.btnPolicyList()" id="btnPolicyList">SHOW POLICIES</button></div>
         </div>
         <!-- Add Policy section to add Policy details -->
         <section id="applyIns">
@@ -54,7 +57,24 @@
 
             <hr>
 
-            <div id="insList"></div>
+            <div>
+                <table class="table table-stripped">
+                    <thead>
+                        <tr class="table-info">
+                            <td>Policy ID</td>
+                            <td>Policy Name</td>
+                            <td>Premuim Monthly</td>
+                            <td>Insurance Period</td>
+                            <td>Reimburse Money</td>
+                            <td>Company Name</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody id="insList">
+
+                    </tbody>
+                </table>
+            </div>
 
             <hr>
         </section>
@@ -67,7 +87,7 @@
 
             <hr>
 
-            
+
 
             <hr>
         </section>
@@ -88,7 +108,7 @@
             $('#viewUIns').show();
             $('#applyIns').hide();
         }
-        
+
     </script>
 </body>
 
