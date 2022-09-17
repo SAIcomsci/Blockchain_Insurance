@@ -319,6 +319,7 @@ App = {
       $('#view_irem').text(result[4]);
       $('#view_cname').text(result[5]);
       $('#view_cadd').text(App.account);
+      $('#view_cid').text(result[7]);
       $('#view_result3').show();
 
     }).catch(function (err) {
