@@ -9,5 +9,8 @@ Open terminal in this project directory
   3 truffle migrate
   4 npm run dev
 Smart Contract: contracts/StudentRegister.sol
+jbh
+e
+1
 
 The structure of this web app is taken out from Truffle Suite - Pet Shop (https://trufflesuite.com/guides/pet-shop/)
