@@ -3,7 +3,7 @@ This is web3 based web app that stores and retrieves the students details that s
 
 To run this web app:
 
-Open terminal in this project directory
+Open terminal in this project directory 
   1 truffle compile
   2 Open Ganache
   3 truffle migrate
