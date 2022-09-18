@@ -41,7 +41,6 @@ contract UserRegister {
     }
     struct Track_Insu{
         uint Adhr_tid;
-        string t_uname;
         uint usr_id;
         uint ins_id;
         uint com_id;
@@ -168,9 +167,27 @@ contract UserRegister {
         return(policy[_i].policy_id, policy[_i].policy_name, policy[_i].premium_monthly, policy[_i].ploy_year, policy[_i].reimburse, policy[_i].company_name, policy[_i].company_add);
     }
 
-    function BuyIns(uint insid,address uadd)public {
+    function BuyIns(uint insid,address  uadd)public payable {
         t_id=t_id+1;
-        UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid, u1[uadd].name,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
+
+        address sender = uadd;
+        uint bal1 = sender.balance;
+        address   payable receiver=payable(p1[insid].company_add );
+    //uint bal2 = receiver.balance;
+
+    //mapping(address => uint) public addressToBalance;
+
+    //function send(address payable _receiver) public payable {
+        //receiver = _receiver;
+        uint value= p1[insid].premium_monthly ;
+        if (bal1>=value){
+            bal1 -= value;
+        //bal2 += msg.value;
+        receiver.transfer(value);
+        //addressToBalance[sender] = bal1;
+        //addressToBalance[receiver] = receiver.balance;
+        }
+        UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
         trackins.push(t);
         t1[t_id]=t;
 
