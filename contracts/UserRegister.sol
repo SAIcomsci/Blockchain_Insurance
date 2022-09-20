@@ -167,8 +167,15 @@ contract UserRegister {
         return(policy[_i].policy_id, policy[_i].policy_name, policy[_i].premium_monthly, policy[_i].ploy_year, policy[_i].reimburse, policy[_i].company_name, policy[_i].company_add);
     }
 
-    function BuyIns(uint insid,address  uadd)public payable {
+    function BuyIns(uint insid,address  uadd)public  {
         t_id=t_id+1;
+        UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
+        trackins.push(t);
+        t1[t_id]=t;
+
+    }
+    
+    function Payment(uint insid,address  uadd){
 
         address sender = uadd;
         uint bal1 = sender.balance;
@@ -187,12 +194,7 @@ contract UserRegister {
         //addressToBalance[sender] = bal1;
         //addressToBalance[receiver] = receiver.balance;
         }
-        UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
-        trackins.push(t);
-        t1[t_id]=t;
-
     }
-    //function Payment()
     //function showbuyins(_tid) public views returns()
   
 }

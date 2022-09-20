@@ -358,9 +358,9 @@ App = {
 
   btnUserApplyIns: function (_id) {
     App.contracts.UserRegister.deployed().then(function (instance) {
-      return instance.BuyIns(_id,App.account);
+      return instance.BuyIns(_id, App.account);
     }).then(function (result) {
-      //console.log(result);
+      console.log(result);
       ('#add_err').text('Company Record Successfully By');
     }).catch(function (err) {
       console.log(err.message);
