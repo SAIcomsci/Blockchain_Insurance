@@ -100,7 +100,7 @@ App = {
       return instance.getPolicySize();
     }).then(function (result) {
       policySize = result.toNumber();
-      console.log('Policy Nums: '+policySize);
+      console.log('Policy Nums: ' + policySize);
     }).catch(function (err) {
       console.log(err.message);
     });
@@ -303,7 +303,7 @@ App = {
 
   btnViewIns: function () {
     $('#view_err').text('');
-    var _insvid=$("#insvid").val();
+    var _insvid = $("#insvid").val();
     App.contracts.UserRegister.deployed().then(function (instance) {
       //return instance.showUser(parseInt(govt_id));
       return instance.showIns(_insvid);
@@ -332,7 +332,7 @@ App = {
   },
 
   btnPolicyList: function () {
-    
+
     for (var i = 0; i < policySize; i++) {
       App.showPolicy1(i);
     }
@@ -343,7 +343,7 @@ App = {
 
   },
 
-  showPolicy1: function(times) {
+  showPolicy1: function (times) {
     App.contracts.UserRegister.deployed().then(function (instance) {
       return instance.getPolicyByIndex(times);
     }).then(function (result) {
@@ -357,15 +357,19 @@ App = {
 
 
   btnUserApplyIns: function (_id) {
-    App.contracts.UserRegister.deployed().then(function (instance) {
-      return instance.BuyIns(_id, App.account);
-    }).then(function (result) {
-      console.log(result);
-      ('#add_err').text('Company Record Successfully By');
-    }).catch(function (err) {
-      console.log(err.message);
-    });
-    
+    var test = confirm('Do you wish to buy this insurance?');
+    if (test) {
+      App.contracts.UserRegister.deployed().then(function (instance) {
+        return instance.BuyIns(_id, acc);
+      }).then(function (result) {
+        console.log(result);
+
+        ('#ins_err').text(result);
+      }).catch(function (err) {
+        console.log(err.message);
+      });
+
+    }
   }
 
 };

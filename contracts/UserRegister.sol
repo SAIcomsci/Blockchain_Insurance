@@ -167,34 +167,34 @@ contract UserRegister {
         return(policy[_i].policy_id, policy[_i].policy_name, policy[_i].premium_monthly, policy[_i].ploy_year, policy[_i].reimburse, policy[_i].company_name, policy[_i].company_add);
     }
 
-    function BuyIns(uint insid,address  uadd)public  {
+    // buy insurance by the user
+    function BuyIns(uint insid, address  uadd) public returns(uint)  {
         t_id=t_id+1;
-        UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
-        trackins.push(t);
-        t1[t_id]=t;
+        uint flag = 0;
+
+        address _receiver = p1[insid].company_add;
+        uint _amount = p1[insid].premium_monthly;
+        if (uadd.balance > _amount) {
+            Payment(payable(_receiver), _amount);
+            flag = 1;
+        }
+
+        if(flag == 1) {
+            UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
+            trackins.push(t);
+            t1[t_id]=t;
+            flag = 2;
+        }
+        return (flag);
 
     }
     
-    function Payment(uint insid,address  uadd){
-
-        address sender = uadd;
-        uint bal1 = sender.balance;
-        address   payable receiver=payable(p1[insid].company_add );
-    //uint bal2 = receiver.balance;
-
-    //mapping(address => uint) public addressToBalance;
-
-    //function send(address payable _receiver) public payable {
-        //receiver = _receiver;
-        uint value= p1[insid].premium_monthly ;
-        if (bal1>=value){
-            bal1 -= value;
-        //bal2 += msg.value;
-        receiver.transfer(value);
-        //addressToBalance[sender] = bal1;
-        //addressToBalance[receiver] = receiver.balance;
-        }
+    // Transfer ether from one account to another
+    function Payment(address payable _receiver, uint _amount) public payable {
+        //_amount = _amount * 1000000000000000000;
+        _receiver.transfer(_amount);
     }
+
     //function showbuyins(_tid) public views returns()
   
 }
