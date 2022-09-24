@@ -356,21 +356,31 @@ App = {
   },
 
 
+  // btnUserApplyIns: function (_id) {
+  //   var test = confirm('Do you wish to buy this insurance?');
+  //   if (test) {
+  //     App.contracts.UserRegister.deployed().then(function (instance) {
+  //       return instance.BuyIns(_id, App.account);
+  //     }).then(function (result) {
+  //       console.log(result);
+
+  //       ('#ins_err').text(result);
+  //     }).catch(function (err) {
+  //       console.log(err.message);
+  //     });
+
+  //   }
+  // }
   btnUserApplyIns: function (_id) {
-    var test = confirm('Do you wish to buy this insurance?');
-    if (test) {
-      App.contracts.UserRegister.deployed().then(function (instance) {
-        return instance.BuyIns(_id, acc);
-      }).then(function (result) {
-        console.log(result);
+    App.contracts.UserRegister.deployed().then(function (instance) {
 
-        ('#ins_err').text(result);
-      }).catch(function (err) {
-        console.log(err.message);
-      });
-
-    }
-  }
+      return instance.BuyIns(_id,App.account,{ from: App.account });
+    }).then(function (result) {
+      console.log(result);
+    }).catch(function (err) {
+      console.log(err.message);
+    });
+  },
 
 };
 

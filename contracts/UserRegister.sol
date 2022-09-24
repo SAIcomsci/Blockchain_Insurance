@@ -162,16 +162,16 @@ contract UserRegister {
         _size = policy.length;
         return (_size);
     }
-
-    function getPolicyByIndex(uint _i) public view returns(uint, string memory, uint, uint,uint ,string memory,address) {
+    
+     function getPolicyByIndex(uint _i) public view returns(uint, string memory, uint, uint,uint ,string memory,address) {
         return(policy[_i].policy_id, policy[_i].policy_name, policy[_i].premium_monthly, policy[_i].ploy_year, policy[_i].reimburse, policy[_i].company_name, policy[_i].company_add);
     }
 
     // buy insurance by the user
-    function BuyIns(uint insid, address  uadd) public returns(uint)  {
+    function BuyIns(uint insid ,address uadd) public returns(uint)  {
         t_id=t_id+1;
         uint flag = 0;
-
+        //address sender=msg.sender;
         address _receiver = p1[insid].company_add;
         uint _amount = p1[insid].premium_monthly;
         if (uadd.balance > _amount) {
@@ -180,7 +180,7 @@ contract UserRegister {
         }
 
         if(flag == 1) {
-            UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
+            UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, uadd, p1[insid].company_add ,t_id);
             trackins.push(t);
             t1[t_id]=t;
             flag = 2;
@@ -188,6 +188,26 @@ contract UserRegister {
         return (flag);
 
     }
+
+    // function buyIns(uint insid ) public   {
+    //     t_id=t_id+1;
+    //     address uadd=msg.sender;
+    //         UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
+    //         trackins.push(t);
+    //         t1[t_id]=t;
+    //     }
+
+    // function buypoldl(uint _pid, address _uadd) public {
+    //     t_id=t_id+1;
+    //     uint Adhr=u1[_uadd].Addhaarid;
+    //     uint uid=u1[_uadd].id;
+    //     uint cid=p1[_pid].i_cid;
+    //     address cadd=p1[_pid].company_add;
+    //     UserRegister.Track_Insu memory t = Track_Insu(Adhr, uid,_pid,cid,_uadd,cadd,t_id);
+    //     trackins.push(t);
+    //     t1[_pid] = t;
+    // }
+
     
     // Transfer ether from one account to another
     function Payment(address payable _receiver, uint _amount) public payable {
@@ -195,6 +215,11 @@ contract UserRegister {
         _receiver.transfer(_amount);
     }
 
+    function sendAccount() public view returns (address){
+        return msg.sender;
+
     //function showbuyins(_tid) public views returns()
   
 }
+}
+
