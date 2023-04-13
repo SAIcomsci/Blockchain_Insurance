@@ -180,7 +180,7 @@ contract UserRegister {
         }
 
         if(flag == 1) {
-            UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, uadd, p1[insid].company_add ,t_id);
+            UserRegister.Track_Insu memory t = Track_Insu(u1[uadd].Addhaarid ,u1[uadd].id,insid,p1[insid].i_cid, p1[insid].company_add ,uadd,t_id);
             trackins.push(t);
             t1[t_id]=t;
             flag = 2;
