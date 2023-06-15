@@ -16,4 +16,4 @@ truffle migrate
 npm run dev
 
 
-Smart Contract: contracts/StudentRegister.sol
+Smart Contract: contracts/UserRegister.sol
